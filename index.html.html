@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agastaya Jindal - Portfolio</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: #0a0a0a;
+    }
+    
+    /* Subtle grain texture */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.03;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(3deg);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #333 0%, #666 100%);
+      border-radius: 5px;
+    }
+
+    /* Selection */
+    ::selection {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    /* Hover effects */
+    a {
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      color: #888 !important;
+    }
+
+    .project-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border-color: #444 !important;
+    }
+
+    .skill-item {
+      transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+      transform: translateX(10px);
+      color: #ddd !important;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #555 !important;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+
+    .primary-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .primary-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .primary-btn:hover::before {
+      left: 100%;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: #666 !important;
+      color: #ddd !important;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 968px) {
+      .nav-menu {
+        display: none !important;
+      }
+
+      .mobile-menu-btn {
+        display: block !important;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .projects-grid,
+      .skills-grid,
+      .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+      }
+
+      .hero-title {
+        font-size: 3rem !important;
+      }
+
+      .section-title {
+        font-size: 2.5rem !important;
+      }
+
+      .decorative-number {
+        font-size: 6rem !important;
+        opacity: 0.05 !important;
+      }
+
+      .floating-shapes {
+        display: none !important;
+      }
+
+      .project-card {
+        padding: 2rem !important;
+      }
+
+      .stat-item {
+        padding: 1.5rem !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stats-row {
+        grid-template-columns: 1fr !important;
+      }
+
+      .hero-title {
+        font-size: 2.5rem !important;
+      }
+    }
+
+    /* Gradient text effect */
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, #888 50%, #555 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function Portfolio() {
+      const [activeSection, setActiveSection] = useState('');
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          const sections = ['about', 'work', 'skills', 'certifications', 'contact'];
+          const current = sections.find(section => {
+            const element = document.getElementById(section);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              return rect.top <= 100 && rect.bottom >= 100;
+            }
+            return false;
+          });
+          setActiveSection(current || '');
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <div style={styles.container}>
+          {/* Navigation */}
+          <nav style={styles.nav}>
+            <div style={styles.navContent}>
+              <div style={styles.logo}>
+                <span className="gradient-text">AJ</span>
+              </div>
+              
+              <button 
+                style={styles.mobileMenuBtn}
+                className="mobile-menu-btn"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? '✕' : '☰'}
+              </button>
+
+              <div style={{
+                ...styles.navMenu,
+                ...(mobileMenuOpen ? styles.navMenuMobile : {})
+              }} className="nav-menu">
+                <a 
+                  href="#about" 
+                  style={{
+                    ...styles.navLink,
+                    ...(activeSection === 'about' ? styles.navLinkActive : {})
+                  }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a 
+                  href="#work" 
+                  style={{
+                    ...styles.navLink,
+                    ...(activeSection === 'work' ? styles.navLinkActive : {})
+                  }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Work
+                </a>
+                <a 
+                  href="#skills" 
+                  style={{
+                    ...styles.navLink,
+                    ...(activeSection === 'skills' ? styles.navLinkActive : {})
+                  }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Skills
+                </a>
+                <a 
+                  href="#certifications" 
+                  style={{
+                    ...styles.navLink,
+                    ...(activeSection === 'certifications' ? styles.navLinkActive : {})
+                  }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Certificates
+                </a>
+                <a 
+                  href="#contact" 
+                  style={{
+                    ...styles.navLink,
+                    ...(activeSection === 'contact' ? styles.navLinkActive : {})
+                  }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <section style={styles.hero}>
+            <div style={styles.heroContainer}>
+              <div style={styles.heroGrid} className="hero-grid">
+                <div style={styles.heroContent}>
+                  <p style={styles.heroGreeting}>👋 Hello, I'm</p>
+                  <h1 style={styles.heroTitle} className="hero-title">
+                    <span className="gradient-text">Agastaya Jindal</span>
+                  </h1>
+                  <p style={styles.heroSubtitle}>
+                    CSE Student • Frontend Dev in the Making
+                  </p>
+                  <p style={styles.heroDescription}>
+                    Just a first-year student at SRM learning to code, building cool stuff, and having fun with web dev! Check out my journey below.
+                  </p>
+                  <div style={styles.heroButtons}>
+                    <a href="#work" style={styles.primaryBtn} className="primary-btn">
+                      View My Work
+                    </a>
+                    <a href="#contact" style={styles.secondaryBtn} className="secondary-btn">
+                      Let's Chat
+                    </a>
+                  </div>
+                </div>
+
+                <div style={styles.heroVisual}>
+                  <div style={styles.floatingShapes} className="floating-shapes">
+                    <div style={{...styles.shape, ...styles.shape1}}></div>
+                    <div style={{...styles.shape, ...styles.shape2}}></div>
+                    <div style={{...styles.shape, ...styles.shape3}}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={styles.scrollHint}>
+              <div style={styles.scrollDot}></div>
+            </div>
+          </section>
+
+          {/* About Section */}
+          <section id="about" style={styles.section}>
+            <div style={styles.sectionContainer}>
+              <div style={styles.aboutGrid} className="about-grid">
+                <div>
+                  <p style={styles.sectionLabel}>💫 About Me</p>
+                  <h2 style={styles.sectionTitle}>
+                    Learning & Growing
+                  </h2>
+                  <div style={styles.bodyText}>
+                    <p style={styles.paragraph}>
+                      I'm a first-year CSE Core student at SRM University, diving into the world 
+                      of web development and programming. Every project is a new learning experience, 
+                      and I'm excited to keep building and improving!
+                    </p>
+                    <p style={styles.paragraph}>
+                      When I'm not coding, you'll usually find me sleeping, learning something new, playing video games, or working on college assignments (and sometimes still debugging my code!).
+                    </p>
+                  </div>
+                </div>
+
+                <div style={styles.decorativeSection}>
+                  <div style={styles.decorativeNumber} className="decorative-number gradient-text">01</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Projects Section */}
+          <section id="work" style={styles.sectionAlt}>
+            <div style={styles.sectionContainer}>
+              <div style={styles.sectionHeader}>
+                <p style={styles.sectionLabel}>🚀 Portfolio</p>
+                <h2 style={styles.sectionTitle}>My Projects</h2>
+              </div>
+
+              <div style={styles.projectsGrid} className="projects-grid">
+                <ProjectCard 
+                  number="01"
+                  emoji="🔐"
+                  title="Signup + Dashboard Portal"
+                  description="A complete user authentication system with a clean dashboard interface. Built as part of NSCC tasks to learn user management."
+                  tags={["HTML", "CSS", "JavaScript"]}
+                  github="Agastaya007"
+                  liveLink="https://agastaya007.github.io/NSCC-Tasks/task1.html"
+                />
+                <ProjectCard 
+                  number="02"
+                  emoji="❓"
+                  title="Quiz Application"
+                  description="An interactive quiz app with score tracking and multiple categories. Another NSCC project focused on DOM manipulation and logic."
+                  tags={["JavaScript", "HTML", "CSS"]}
+                  github="Agastaya007"
+                  liveLink="https://agastaya007.github.io/NSCC-Tasks/task2.html"
+                />
+                <ProjectCard 
+                  number="03"
+                  emoji="🎬"
+                  title="Netflix Clone"
+                  description="A pixel-perfect clone of Netflix's landing page built for Coding Ninjas. Focused on responsive design and modern CSS techniques."
+                  tags={["HTML", "CSS", "JavaScript"]}
+                  github="Agastaya007"
+                  liveLink="https://agastaya007.github.io/Coding-Ninjas-Task-Agastaya-Jindal/"
+                />
+                <ProjectCard 
+                  number="04"
+                  emoji="🍽️"
+                  title="The Royal Tandoor"
+                  description="A beautiful landing page for a restaurant showcasing menu and services. Created for SQAC task with focus on UI/UX."
+                  tags={["HTML", "CSS", "JavaScript"]}
+                  github="Agastaya007"
+                  liveLink="https://agastaya007.github.io/SQAC-TASK/"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Skills Section */}
+          <section id="skills" style={styles.section}>
+            <div style={styles.sectionContainer}>
+              <div style={styles.skillsLayout} className="skills-grid">
+                <div>
+                  <p style={styles.sectionLabel}>🎯 Learning Path</p>
+                  <h2 style={styles.sectionTitle}>
+                    Skills I'm Building
+                  </h2>
+                  <p style={styles.bodyText}>
+                    Just started my coding journey! Learning web development with HTML, CSS, 
+                    and JavaScript, while also picking up programming fundamentals with C and Python.
+                  </p>
+                </div>
+
+                <div style={styles.skillsGrid}>
+                  <SkillCategory 
+                    title="Web Development"
+                    icon="💻"
+                    skills={[
+                      "HTML5 & CSS3",
+                      "JavaScript (Basics)",
+                      "React (Learning)",
+                      "Responsive Design",
+                      "Git & GitHub"
+                    ]}
+                  />
+                  <SkillCategory 
+                    title="Programming Languages"
+                    icon="⚙️"
+                    skills={[
+                      "C",
+                      "Python (Basics)",
+                      "C++ (Learning)",
+                      "Problem Solving"
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Certifications Section */}
+          <section id="certifications" style={styles.sectionAlt}>
+            <div style={styles.sectionContainer}>
+              <div style={styles.sectionHeader}>
+                <p style={styles.sectionLabel}>🏆 Achievements</p>
+                <h2 style={styles.sectionTitle}>Certifications</h2>
+              </div>
+
+              <div style={styles.certificateGrid}>
+                <div style={styles.certificateCard}>
+                  <div style={styles.certificateIcon}>📜</div>
+                  <h3 style={styles.certificateTitle}>ENDURO - Software Training & Inner Personality Development</h3>
+                  <p style={styles.certificateDesc}>
+                    Successfully completed online workshop organized by ENDURO in collaboration 
+                    with IIT Hyderabad. Certificate ID: EN251485
+                  </p>
+                  <div style={styles.certificateMeta}>
+                    <span style={styles.certificateYear}>Aug-Sep 2025</span>
+                    <span style={styles.certificateYear}>IIT Hyderabad</span>
+                  </div>
+                  <div style={styles.certificateDetails}>
+                    <div style={styles.certificateDetailItem}>
+                      <strong>Course Director:</strong> Prof. Gajendranath Chaudhury, Associate Professor, IIT Hyderabad
+                    </div>
+                    <div style={styles.certificateDetailItem}>
+                      <strong>Course Trainer:</strong> Gaurang Dangayach, Alumnus, IIT Kanpur
+                    </div>
+                  </div>
+                  <a 
+                    href="ENDURO25_EN251485.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={styles.viewCertBtn}
+                  >
+                    📄 View Certificate
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Contact Section */}
+          <section id="contact" style={styles.sectionAlt}>
+            <div style={styles.sectionContainer}>
+              <div style={styles.contactGridSingle}>
+                <div>
+                  <p style={styles.sectionLabel}>📬 Get in Touch</p>
+                  <h2 style={styles.sectionTitle}>
+                    Let's Connect!
+                  </h2>
+                  <p style={styles.bodyText}>
+                    I'm always excited to collaborate on projects, learn new things, or just chat 
+                    about tech! Feel free to reach out through GitHub or connect with me on other platforms. 🚀
+                  </p>
+
+                  <div style={styles.contactInfo}>
+                    <a href="https://github.com/Agastaya007" style={styles.contactLink} target="_blank" rel="noopener noreferrer">
+                      <span style={styles.contactIcon}>💻</span>
+                      <span>github.com/Agastaya007</span>
+                    </a>
+                    <a href="mailto:agastayajindal007@gmail.com" style={styles.contactLink}>
+                      <span style={styles.contactIcon}>✉️</span>
+                      <span>agastayajindal007@gmail.com</span>
+                    </a>
+                    <a href="mailto:aj7800@srmist.edu.in" style={styles.contactLink}>
+                      <span style={styles.contactIcon}>🎓</span>
+                      <span>aj7800@srmist.edu.in</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/agastaya-jindal-980029213/" style={styles.contactLink} target="_blank" rel="noopener noreferrer">
+                      <span style={styles.contactIcon}>💼</span>
+                      <span>linkedin.com/in/agastaya-jindal</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer style={styles.footer}>
+            <div style={styles.sectionContainer}>
+              <div style={styles.footerContent}>
+                <p style={styles.footerText}>
+                  © {new Date().getFullYear()} Agastaya Jindal. Made with 💜 and ☕
+                </p>
+                <div style={styles.footerLinks}>
+                  <a href="#about" style={styles.footerLink}>About</a>
+                  <a href="#work" style={styles.footerLink}>Work</a>
+                  <a href="#skills" style={styles.footerLink}>Skills</a>
+                  <a href="#certifications" style={styles.footerLink}>Certificates</a>
+                  <a href="#contact" style={styles.footerLink}>Contact</a>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // Project Card Component
+    function ProjectCard({ number, emoji, title, description, tags, github, liveLink }) {
+      return (
+        <div style={styles.projectCard} className="project-card">
+          <div style={styles.projectHeader}>
+            <span style={styles.projectEmoji}>{emoji}</span>
+            <span style={styles.projectNumber}>{number}</span>
+          </div>
+          <h3 style={styles.projectTitle}>{title}</h3>
+          <p style={styles.projectDesc}>{description}</p>
+          <div style={styles.projectTags}>
+            {tags.map((tag, i) => (
+              <span key={i} style={styles.tag}>{tag}</span>
+            ))}
+          </div>
+          <div style={styles.projectLinks}>
+            {github && (
+              <a 
+                href={`https://github.com/${github}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={styles.projectLink}
+              >
+                <span>💻</span> GitHub
+              </a>
+            )}
+            {liveLink && (
+              <a 
+                href={liveLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={styles.projectLink}
+              >
+                <span>🔗</span> Live Demo
+              </a>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // Skill Category Component
+    function SkillCategory({ title, icon, skills }) {
+      return (
+        <div style={styles.skillCategory}>
+          <div style={styles.skillCategoryHeader}>
+            <span style={styles.skillIcon}>{icon}</span>
+            <h3 style={styles.skillCategoryTitle}>{title}</h3>
+          </div>
+          <div style={styles.skillList}>
+            {skills.map((skill, i) => (
+              <div key={i} style={styles.skillItem} className="skill-item">
+                <span style={styles.skillDot}></span>
+                {skill}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Styles
+    const styles = {
+      container: {
+        position: 'relative',
+        zIndex: 2,
+      },
+      sectionContainer: {
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 2rem',
+      },
+      heroContainer: {
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 2rem',
+      },
+
+      // Navigation
+      nav: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        background: 'rgba(10, 10, 10, 0.9)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        zIndex: 1000,
+        padding: '1.5rem 0',
+      },
+      navContent: {
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 2rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+      logo: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '1.8rem',
+        fontWeight: '700',
+        letterSpacing: '-0.5px',
+      },
+      mobileMenuBtn: {
+        display: 'none',
+        background: 'none',
+        border: 'none',
+        color: '#fff',
+        fontSize: '1.5rem',
+        cursor: 'pointer',
+      },
+      navMenu: {
+        display: 'flex',
+        gap: '2.5rem',
+        alignItems: 'center',
+      },
+      navMenuMobile: {
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        right: 0,
+        background: 'rgba(10, 10, 10, 0.98)',
+        backdropFilter: 'blur(20px)',
+        flexDirection: 'column',
+        padding: '2rem',
+        gap: '1.5rem',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      },
+      navLink: {
+        color: '#999',
+        textDecoration: 'none',
+        fontSize: '0.95rem',
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: '500',
+        position: 'relative',
+      },
+      navLinkActive: {
+        color: '#fff',
+      },
+
+      // Hero
+      hero: {
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: '100px',
+        paddingBottom: '100px',
+        position: 'relative',
+      },
+      heroGrid: {
+        display: 'grid',
+        gridTemplateColumns: '1.2fr 1fr',
+        gap: '6rem',
+        alignItems: 'center',
+      },
+      heroContent: {
+        animation: 'fadeInUp 1s ease-out',
+      },
+      heroGreeting: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1.1rem',
+        color: '#999',
+        marginBottom: '1rem',
+        fontWeight: '500',
+      },
+      heroTitle: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '5rem',
+        lineHeight: '1.1',
+        marginBottom: '1rem',
+        fontWeight: '700',
+      },
+      heroSubtitle: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1.5rem',
+        color: '#ddd',
+        marginBottom: '2rem',
+        fontWeight: '400',
+      },
+      heroDescription: {
+        fontSize: '1.15rem',
+        lineHeight: '1.8',
+        color: '#999',
+        marginBottom: '3rem',
+        maxWidth: '500px',
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: '400',
+      },
+      heroButtons: {
+        display: 'flex',
+        gap: '1.5rem',
+        flexWrap: 'wrap',
+      },
+      primaryBtn: {
+        display: 'inline-block',
+        padding: '1.1rem 2.5rem',
+        background: 'linear-gradient(135deg, #333 0%, #111 100%)',
+        color: '#fff',
+        textDecoration: 'none',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.95rem',
+        fontWeight: '600',
+        borderRadius: '50px',
+        border: '1px solid #444',
+        transition: 'all 0.3s ease',
+      },
+      secondaryBtn: {
+        display: 'inline-block',
+        padding: '1.1rem 2.5rem',
+        border: '2px solid rgba(255, 255, 255, 0.2)',
+        color: '#ddd',
+        textDecoration: 'none',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.95rem',
+        fontWeight: '600',
+        borderRadius: '50px',
+        transition: 'all 0.3s ease',
+      },
+      heroVisual: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        animation: 'fadeIn 1.5s ease-out',
+        position: 'relative',
+        height: '400px',
+      },
+      floatingShapes: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+      },
+      shape: {
+        position: 'absolute',
+        borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+        animation: 'float 6s ease-in-out infinite',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+      },
+      shape1: {
+        width: '250px',
+        height: '250px',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+        top: '10%',
+        left: '10%',
+        animationDelay: '0s',
+      },
+      shape2: {
+        width: '200px',
+        height: '200px',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
+        bottom: '20%',
+        right: '10%',
+        animationDelay: '2s',
+      },
+      shape3: {
+        width: '180px',
+        height: '180px',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        animationDelay: '4s',
+      },
+      scrollHint: {
+        position: 'absolute',
+        bottom: '2rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+      },
+      scrollDot: {
+        width: '8px',
+        height: '8px',
+        borderRadius: '50%',
+        background: '#666',
+        animation: 'float 2s ease-in-out infinite',
+      },
+
+      // Sections
+      section: {
+        padding: '8rem 0',
+        background: '#0a0a0a',
+      },
+      sectionAlt: {
+        padding: '8rem 0',
+        background: '#111',
+      },
+      sectionLabel: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1rem',
+        color: '#999',
+        marginBottom: '1rem',
+        fontWeight: '500',
+      },
+      sectionTitle: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '3.5rem',
+        color: '#fff',
+        marginBottom: '3rem',
+        fontWeight: '700',
+        lineHeight: '1.2',
+      },
+      sectionHeader: {
+        marginBottom: '4rem',
+      },
+      bodyText: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1.1rem',
+        lineHeight: '1.9',
+        color: '#999',
+        fontWeight: '400',
+      },
+      paragraph: {
+        marginBottom: '1.5rem',
+      },
+
+      // About
+      aboutGrid: {
+        display: 'grid',
+        gridTemplateColumns: '1.5fr 1fr',
+        gap: '6rem',
+        alignItems: 'center',
+      },
+      decorativeSection: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      decorativeNumber: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '12rem',
+        fontWeight: '700',
+        lineHeight: '1',
+        opacity: 0.1,
+      },
+
+      // Projects
+      projectsGrid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '2.5rem',
+      },
+      projectCard: {
+        padding: '2.5rem',
+        background: 'rgba(255, 255, 255, 0.03)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: '24px',
+        position: 'relative',
+      },
+      projectHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '1.5rem',
+      },
+      projectEmoji: {
+        fontSize: '2.5rem',
+      },
+      projectNumber: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '0.9rem',
+        fontWeight: '600',
+        color: '#666',
+      },
+      projectTitle: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '1.8rem',
+        color: '#fff',
+        marginBottom: '1rem',
+        fontWeight: '600',
+      },
+      projectDesc: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1rem',
+        lineHeight: '1.7',
+        color: '#999',
+        marginBottom: '2rem',
+        fontWeight: '400',
+      },
+      projectTags: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '0.8rem',
+        marginBottom: '1.5rem',
+      },
+      tag: {
+        fontFamily: "'Inter', sans-serif",
+        padding: '0.5rem 1rem',
+        fontSize: '0.85rem',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        borderRadius: '20px',
+        fontWeight: '500',
+        color: '#aaa',
+      },
+      githubLink: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.95rem',
+        color: '#888',
+        textDecoration: 'none',
+        fontWeight: '500',
+        display: 'inline-block',
+        marginTop: '0.5rem',
+      },
+      projectLinks: {
+        display: 'flex',
+        gap: '1rem',
+        marginTop: '0.5rem',
+      },
+      projectLink: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.9rem',
+        color: '#888',
+        textDecoration: 'none',
+        fontWeight: '500',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        padding: '0.6rem 1.2rem',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: '20px',
+        transition: 'all 0.3s ease',
+      },
+
+      // Certifications
+      certificateGrid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '2rem',
+      },
+      certificateCard: {
+        padding: '2.5rem',
+        background: 'rgba(255, 255, 255, 0.03)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: '24px',
+        textAlign: 'center',
+        transition: 'all 0.3s ease',
+      },
+      certificateIcon: {
+        fontSize: '3rem',
+        marginBottom: '1.5rem',
+      },
+      certificateTitle: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '1.5rem',
+        color: '#fff',
+        marginBottom: '1rem',
+        fontWeight: '600',
+      },
+      certificateDesc: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1rem',
+        lineHeight: '1.7',
+        color: '#999',
+        marginBottom: '1.5rem',
+        fontWeight: '400',
+      },
+      certificateMeta: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '1rem',
+        marginBottom: '1.5rem',
+      },
+      certificateYear: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.9rem',
+        color: '#666',
+        fontWeight: '500',
+        padding: '0.5rem 1rem',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '20px',
+      },
+      certificateDetails: {
+        marginTop: '2rem',
+        padding: '1.5rem',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '12px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+      },
+      certificateDetailItem: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.95rem',
+        color: '#999',
+        marginBottom: '1rem',
+        lineHeight: '1.6',
+      },
+      viewCertBtn: {
+        fontFamily: "'Inter', sans-serif",
+        display: 'inline-block',
+        marginTop: '1.5rem',
+        padding: '0.9rem 2rem',
+        background: 'linear-gradient(135deg, #333 0%, #111 100%)',
+        color: '#fff',
+        textDecoration: 'none',
+        fontSize: '0.95rem',
+        fontWeight: '600',
+        borderRadius: '50px',
+        border: '1px solid #444',
+        transition: 'all 0.3s ease',
+      },
+
+      // Contact
+      contactGrid: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '6rem',
+        alignItems: 'start',
+      },
+      contactGridSingle: {
+        maxWidth: '600px',
+        margin: '0 auto',
+      },
+      skillsLayout: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1.5fr',
+        gap: '6rem',
+        alignItems: 'start',
+      },
+      skillsGrid: {
+        display: 'grid',
+        gap: '2rem',
+      },
+      skillCategory: {
+        padding: '2.5rem',
+        background: 'rgba(255, 255, 255, 0.03)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: '24px',
+      },
+      skillCategoryHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+        marginBottom: '2rem',
+      },
+      skillIcon: {
+        fontSize: '2rem',
+      },
+      skillCategoryTitle: {
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: '1.5rem',
+        fontWeight: '600',
+        color: '#fff',
+      },
+      skillList: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+      },
+      skillItem: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '1rem',
+        color: '#999',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+        fontWeight: '400',
+      },
+      skillDot: {
+        width: '8px',
+        height: '8px',
+        borderRadius: '50%',
+        flexShrink: 0,
+        background: '#555',
+      },
+
+      // Contact
+      contactGrid: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '6rem',
+        alignItems: 'start',
+      },
+      contactInfo: {
+        marginTop: '3rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1.5rem',
+      },
+      contactLink: {
+        fontFamily: "'Inter', sans-serif",
+        color: '#999',
+        textDecoration: 'none',
+        fontSize: '1.05rem',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+        fontWeight: '400',
+        padding: '1rem',
+        background: 'rgba(255, 255, 255, 0.03)',
+        borderRadius: '12px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        transition: 'all 0.3s ease',
+      },
+      contactIcon: {
+        fontSize: '1.5rem',
+      },
+
+      // Footer
+      footer: {
+        background: '#0a0a0a',
+        padding: '3rem 0',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+      },
+      footerContent: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '2rem',
+      },
+      footerText: {
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '0.95rem',
+        color: '#666',
+        fontWeight: '400',
+      },
+      footerLinks: {
+        display: 'flex',
+        gap: '2rem',
+      },
+      footerLink: {
+        fontFamily: "'Inter', sans-serif",
+        color: '#999',
+        textDecoration: 'none',
+        fontSize: '0.95rem',
+        fontWeight: '400',
+      },
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Portfolio />);
+  </script>
+</body>
+</html>
